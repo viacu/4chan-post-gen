@@ -54,6 +54,7 @@
   margin: 0;
   font-weight: 900;
   text-align: center;
+  font-family: 'Roboto', sans-serif;
 
   /* Use CSS variable for dynamic gradient */
   background-image: var(--title-gradient, linear-gradient(to right, #d62828, #ff9a8b, #ffffff, #ffafbd, #c94b4b));
