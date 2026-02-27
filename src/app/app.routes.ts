@@ -3,6 +3,6 @@ import { App } from './app';
 
 
 export const routes: Routes = [
-  { path: '', redirectTo: '', pathMatch: 'full', component: App },
+  { path: '', pathMatch: 'full', component: App },
   { path: '**', redirectTo: '' }
 ];
