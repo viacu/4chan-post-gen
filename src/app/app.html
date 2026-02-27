@@ -1,0 +1,103 @@
+<div class="container">
+  @if (isDragging) {
+    <div class="drag-overlay">
+      <div class="drag-message">Drop image here!</div>
+    </div>
+  }
+
+  <div class="input-card">
+    <div class="card-header">
+      <h1 class="card-title" [style.--title-gradient]="currentGradient" (click)="cycleGradient()">4chan Post Generator</h1>
+    </div>
+    <div class="card-content">
+      <form class="post-form">
+        <div class="form-group">
+          <label for="title">Title of your greentext</label>
+          <input type="text" id="title" [(ngModel)]="title" (ngModelChange)="onInputChange()" name="title" class="custom-input">
+        </div>
+
+        <div class="form-group file-upload-group">
+          <button type="button" class="custom-button primary" (click)="fileInput.click()">
+            Upload Image
+          </button>
+          <input hidden (change)="onFileSelected($event)" #fileInput type="file" accept="image/*">
+          @if (selectedFileName) {
+            <span class="file-name">{{selectedFileName}}</span>
+          }
+        </div>
+
+        <div class="form-group toggle-group">
+          <label class="toggle-label">
+            <input type="checkbox" [(ngModel)]="showFileName" (ngModelChange)="onShowFileNameChange()" name="showFileName" class="toggle-input">
+            <span class="toggle-slider"></span>
+            <span class="toggle-text">Show original filename</span>
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label for="greentext">Enter your greentext, anon</label>
+          <textarea id="greentext" [(ngModel)]="greentext" (ngModelChange)="onInputChange()" name="greentext" rows="10" class="custom-textarea" placeholder="> be me&#10;> gay&#10;> you get the rest"></textarea>
+        </div>
+
+        <button type="button" class="custom-button accent" (click)="generateImages()" [disabled]="isGenerating">
+          {{ isGenerating ? 'Generating...' : 'Download Images' }}
+        </button>
+      </form>
+    </div>
+    <div class="card-footer">
+      <p class="footer-text">Original idea and implementation by lankyfemme </p>
+      <p class="footer-text">Pure client-side Angular port by viacu</p>
+      <p class="footer-text"><a href="https://github.com/viacu/4chan-post-gen">Source Code</a> / <a href="https://github.com/lankyfemme/4chan-post-generator">Original</a></p>
+    </div>
+  </div>
+
+  <div class="preview-container">
+    <h3>Preview:</h3>
+    <!-- Original HTML Structure from index_source.html -->
+    <div #previewContainer class="board board_r9k">
+        <div class="thread" id="t23675577">
+            <div class="postContainer opContainer" id="pc23675577">
+                <div class="post op">
+                    <span id="sa69286265">
+                        <img alt="H" class="extButton threadHideButton" data-cmd="hide" src="/post_expand_minus.png">
+                    </span>
+
+                    @if (imageSrc) {
+                    <div class="file">
+                        <div class="fileText">File:
+                            <a [href]="imageSrc" target="_blank">
+                              @if (showFileName && selectedFileName) {
+                                {{selectedFileName}}
+                              } @else {
+                                {{imageName}}
+                              }
+                            </a> ({{imageSize}}, {{imageDimensions}})
+                        </div>
+                        <a class="fileThumb" [href]="imageSrc" target="_blank">
+                            <img [src]="imageSrc" [style.height.px]="displayedImageHeight" [style.width.px]="displayedImageWidth">
+                        </a>
+                    </div>
+                    }
+
+                    <div class="postInfo desktop">
+                        <input type="checkbox">
+                            <span class="subject">{{title}}</span>
+                            <span class="nameBlock">
+                                <span class="name">Anonymous</span>
+                            </span>
+                            <span class="dateTime" data-utc="1656947169">{{currentDate}}</span>
+                            <span class="postNum desktop">
+                                <a href="#" title="Link to this post">No.</a><a href="#" title="Reply to this post">{{postId}}</a>&nbsp;
+                                <span>[<a href="#" class="replylink">Reply</a>]</span>&nbsp;
+                            </span>
+                            <a href="#" class="postMenuBtn" title="Post menu" data-cmd="post-menu">▶</a>
+                    </div>
+                    <blockquote class="postMessage" [innerHTML]="formattedGreentext">
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+        <div>&nbsp;</div>
+    </div>
+  </div>
+</div>
